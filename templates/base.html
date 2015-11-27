@@ -2,16 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}{% endblock %}</title>
+    {% block head %}{% endblock %}
 </head>
 <body>
-
-    {% block body %}
-    {% endblock %}
+    {% block body %}{% endblock %}
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> <!-- 주소가 깨졌을 경우, script가 마지막에 실행되는 게 좋다.-->
     <script>
-    {% block script %}
-    {% endblock %}
+        {% block script %}{% endblock %}
     </script>
 </body>
 </html>

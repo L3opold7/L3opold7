@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block head %}
+    <title>Public</title>
+{% endblock %}
+
+{% block body %}
+    <div>
+        <h1><a href="/">L3opold7's Blog</a></h1>
+    </div>
+    {% for post in posts %}
+        <div>
+            <p>created: {{ post.created_at }}</p>
+            <h1><a href="">{{ post.title }}</a></h1>
+            <p>{{ post.text|linebreaks }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
