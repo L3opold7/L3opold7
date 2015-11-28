@@ -1,22 +1,55 @@
 {% extends "base.html" %}
+{% load staticfiles %}
 
-{% block title %}Welcome{% endblock %}
+{% block head %}
+    <title>Welcome</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Dark Login Form</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!--[if lt IE 9]><script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+{% endblock %}
 
 {% block body %}
-<h1>Login Page</h1>
 {% if error %}
-<h2>{{ error }}</h2>
+    <h2>{{ error }}</h2>
 {% endif %}
+
 {% if request.user.is_anonymous %} <!-- 로그인이 안되어 있으면 폼을 띄워줌 -->
-<form method="post" action=".">
-<input type="text" name="username">
-<input type="password" name="password">
-<input type="submit" value="login">
-{% csrf_token %}
-</form>
-    <a href="/register/">Register</a>
-{% else %} <!-- 로그인이 되어있을 경우 user객체의 username을 출력해줌 -->
-<p>Hi! {{ request.user.username }}</p>
-<a href="/logout/">Logout</a>
-{% endif %}
+    <h1>Login Page</h1>
+    <form method="post" action="." class="login">
+    <p>
+        <label for="login">ID:</label>
+        <input type="text" name="username" id="login" value="username">
+    </p>
+    <p>
+        <label for="password">Password:</label>
+        <input type="password" name="password" id="password" value="1111111">
+    </p>
+
+    <p class="login-submit">
+        <button type="submit" class="login-button">Login</button>
+    </p>
+
+    <p class="register"><a href="/register/">Register</a></p>
+    {% csrf_token %}
+    </form>
+
+
+    {% else %} <!-- 로그인이 되어있을 경우 user객체의 username을 출력해줌 -->
+        <p>{{ request.user.username }}'s Page</p>
+        <p class="logout"><a href="/logout/">Logout</a></p>
+    {% endif %}
+
+    <section class="about">
+    <p class="about-links">
+        <a href="https://github.com/L3opold7/L3opold7/" target="_parent">Github Address</a>
+        <a href="" target="_parent">Django Wiki</a>
+    </p>
+    <p class="about-author">
+        &copy; 2015&ndash;2016 <a href="http://sunrint.hs.kr" target="_blank">Sunrin Internet High School</a> -
+        <a href="http://github.com/L3opold7/" target="_blank">L3opold7</a><br>
+        Original PSD by <a href="http://365psd.com/day/2-234/" target="_blank">Rich McNabb</a>
+    </section>
+
 {% endblock %}
