@@ -49,3 +49,8 @@ h1, h2, h3, h4 {
 .login {
     margin-bottom: 40px;
 }
+
+a.btn.btn-default {
+    margin-left: 10px;
+    float: right;
+}
