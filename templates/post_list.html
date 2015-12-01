@@ -1,17 +1,23 @@
 {% extends 'base.html' %}
+
 {% block head %}
     <title>Public</title>
 {% endblock %}
 
 {% block body %}
-    <div>
-        <h1><a href="/">L3opold7's Blog</a></h1>
-    </div>
-    {% for post in posts %}
-        <div>
-            <p>created: {{ post.created_at }}</p>
-            <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-            <p>{{ post.text|linebreaks }}</p>
+    <div class="content container">
+    <div class="row">
+        <div class="col-md-8">
+            {% for post in posts %}
+                <div class="post">
+                    <div class="date">
+                        {{ post.published_date }}
+                    </div>
+                    <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                    <p>{{ post.text|linebreaks }}</p>
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    </div>
+    </div>
 {% endblock %}

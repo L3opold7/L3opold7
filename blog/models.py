@@ -2,6 +2,7 @@ from django.db import models
 from common.models import UserProfile
 from django.utils import timezone
 
+
 class Post(models.Model):
     author = models.ForeignKey(UserProfile)
     title = models.CharField(max_length=100)

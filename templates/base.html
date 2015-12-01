@@ -1,14 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% block head %}{% endblock %}
-</head>
-<body>
-    {% block body %}{% endblock %}
-    <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> <!-- 주소가 깨졌을 경우, script가 마지막에 실행되는 게 좋다.-->
+{% load staticfiles %}
+<html>
+    <head>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        {% block head %}
+        {% endblock %}
+    </head>
+    <body>
+        <div class="page-header">
+            {% if user.is_authenticated %}
+                <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            {% else %}
+                <a href="/login/" class="top-menu"><span class="glyphicon glyphicon-fire"></span></a>
+            {% endif %}
+            <h1><a href="/">L3opold7's Blog</a></h1>
+        </div>
+        {% block body %}
+        {% endblock %}
+    </body>
     <script>
-        {% block script %}{% endblock %}
+    {% block script %}
+    {% endblock %}
     </script>
-</body>
 </html>
