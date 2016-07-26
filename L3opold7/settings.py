@@ -119,7 +119,6 @@ else:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
     # AWS Setting
-
     AWS_REGION = 'ap-northeast-2'
     AWS_STORAGE_BUCKET_NAME = 'l3opold7'
     AWS_QUERYSTRING_AUTH = False
