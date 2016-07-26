@@ -1,7 +1,10 @@
+boto==2.42.0
 codegen==1.0
 Django==1.10rc1
 django-appconf==1.0.2
 django-imagekit==3.3
+django-pipeline==1.6.8
+django-storages==1.4.1
 patterns==0.3
 pilkit==1.1.13
 Pillow==3.3.0
