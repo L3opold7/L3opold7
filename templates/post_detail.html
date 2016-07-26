@@ -9,7 +9,7 @@
                     {% if post.created_at %}
                         <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
                         <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
-                        <a class="btn btn-default" href="{% url 'upload_photo' pk=post.pk %}"><span class="glyphicon glyphicon-camera"></span></a>
+                        <a class="btn btn-default" href="{% url 'upload_photo' pk=post.pk %}"><span class="glyphicon glyphicon-eye"></span></a>
                         <div class="date">
                             {{ post.created_at }}
                         </div>
@@ -17,7 +17,7 @@
                     <h1>{{ post.title }}</h1>
                     <p>{{ post.text|linebreaks }}</p>
                     {% for photo in photos %}
-                        <img src="/media/{{ photo.photo }}" />
+                        <img src="{{ photo.photo.url }}" />
                     {% endfor %}
                 </div>
             </div>
