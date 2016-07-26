@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from common.models import UserProfile
-from blog.models import Post
 from django.db import IntegrityError
 
 

@@ -2,6 +2,9 @@
 
 AWS Setting
 
-Thumbnail + Image 업로드
+Thumbnail + Image 업로드 
+> use django-imagekit)
 Login + Register
-Post(Title / Text)
+> use AbstractUser
+Post
+> Model 직접 구현
