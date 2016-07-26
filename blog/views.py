@@ -7,7 +7,7 @@ from blog.forms import PostForm, PhotoForm
 
 def post_list(request):
     posts = Post.objects.all().order_by('modified_at').reverse()
-    photos = Photo.objects.all()
+    photos = Photo.objects.filter()
     return render(request, 'post_list.html', {'posts': posts, 'photos': photos})
 
 

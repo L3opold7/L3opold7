@@ -17,7 +17,9 @@
                     <p>{{ post.text|linebreaks }}</p>
                     <div>
                         {% for photo in photos %}
-                            <img src="{{ photo.photo_thumbnail.url }}" />
+                            {% if photo.post_id is post.id %}
+                                <img src="{{ photo.photo_thumbnail.url }}" />
+                            {% endif %}
                         {% endfor %}
                     </div>
                 </div>
