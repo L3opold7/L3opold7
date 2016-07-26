@@ -1,6 +1,10 @@
 from django.db import models
+from imagekit.models import ImageSpecField
+
 from common.models import UserProfile
-from django.utils import timezone
+
+from imagekit.processors import ResizeToFill
+from imagekit.models import ProcessedImageField
 
 
 class Post(models.Model):
@@ -16,3 +20,17 @@ class Post(models.Model):
         :return self.title:
         """
         return self.title
+
+
+class Photo(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    photo = ProcessedImageField(upload_to='photos',
+                                processors=[ResizeToFill(400, 400)],
+                                format='JPEG',
+                                options={'quality': 80})
+
+    photo_thumbnail = ImageSpecField(source='photo',
+                                     processors=[ResizeToFill(100, 100)],
+                                     format='JPEG',
+                                     options={'qulity': 60})
+

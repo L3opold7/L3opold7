@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load imagekit %}
 
 {% block body %}
     <div class="content container">
@@ -7,12 +8,17 @@
                 <div class="post">
                     {% if post.created_at %}
                         <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a class="btn btn-default" href="{% url 'post_delete' pk=post.pk %}"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a class="btn btn-default" href="{% url 'upload_photo' pk=post.pk %}"><span class="glyphicon glyphicon-camera"></span></a>
                         <div class="date">
                             {{ post.created_at }}
                         </div>
                     {% endif %}
                     <h1>{{ post.title }}</h1>
                     <p>{{ post.text|linebreaks }}</p>
+                    {% for photo in photos %}
+                        <img src="/media/{{ photo.photo }}" />
+                    {% endfor %}
                 </div>
             </div>
         </div>

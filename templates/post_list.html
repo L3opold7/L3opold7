@@ -15,6 +15,11 @@
                     </div>
                     <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
                     <p>{{ post.text|linebreaks }}</p>
+                    <div>
+                        {% for photo in photos %}
+                            <img src="{{ photo.photo_thumbnail.url }}" />
+                        {% endfor %}
+                    </div>
                 </div>
             {% endfor %}
         </div>
