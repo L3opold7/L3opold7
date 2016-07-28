@@ -29,7 +29,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'L3opold7.urls'
+ROOT_URLCONF = 'Leopold.urls'
 
 TEMPLATES = [
     {
@@ -48,7 +48,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'L3opold7.wsgi.application'
+WSGI_APPLICATION = 'Leopold.wsgi.application'
 
 
 # Database

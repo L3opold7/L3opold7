@@ -13,7 +13,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../"
 
 site.addsitedir('/home/ubuntu/.pyenv/versions/denv/lib/python3.5/site-packages')
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "L3opold7.settings")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Leopold.settings")
 
 from django.core.wsgi import get_wsgi_application
 
