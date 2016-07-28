@@ -86,7 +86,7 @@ USE_TZ = True
 
 AUTH_USER_MODEL = "common.UserProfile"
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
