@@ -1,4 +1,4 @@
-# L3opold7's Page
+# Leop0ld's Page
 
 AWS S3 Setting 완료
 
@@ -14,10 +14,13 @@ Post
 ## 실행 환경
 
 Ubuntu 14.04 LTS
-Python 3.5.2
+Python 3.4.3
 
-pyenv + virtualenv + autoenv 사용
-(or virtualenv+virtualenvwrapper 만 깔끔하게 사용)
+virtualenv + virtualenvwrapper 사용
+
+Nginx+uWSGI 사용해서 배포중
+
+접속 링크: [AWS LINK](ec2-52-78-107-140.ap-northeast-2.compute.amazonaws.com)
 
 
 ## 툴
