@@ -20,7 +20,7 @@ virtualenv + virtualenvwrapper 사용
 
 Nginx+uWSGI 사용해서 배포중
 
-접속 링크: [AWS LINK](ec2-52-78-107-140.ap-northeast-2.compute.amazonaws.com)
+접속 링크: [AWS LINK](http://ec2-52-78-107-140.ap-northeast-2.compute.amazonaws.com)
 
 
 ## 툴
