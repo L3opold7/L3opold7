@@ -14,6 +14,7 @@ INSTALLED_APPS = (
     'blog',
     'common',
     'imagekit',
+    'pipeline',
     'storages',
 )
 

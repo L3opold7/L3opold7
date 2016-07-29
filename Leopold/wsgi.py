@@ -6,7 +6,7 @@ https://docs.djangoproject.com/en/1.9/howto/deployment/wsgi/
 
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Leopold.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "myproject.settings.local")
 
 from django.core.wsgi import get_wsgi_application
 
