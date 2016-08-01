@@ -84,11 +84,11 @@ USE_TZ = True
 
 AUTH_USER_MODEL = "common.UserProfile"
 
+ALLOWED_HOSTS = ['*']
 
 DEBUG = False
 
 if DEBUG:
-    ALLOWED_HOSTS = []
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
     STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
@@ -97,7 +97,6 @@ if DEBUG:
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 else:
-    ALLOWED_HOSTS = ['*']
 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
