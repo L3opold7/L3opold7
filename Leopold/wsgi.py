@@ -1,6 +1,6 @@
 import os
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Leopold.settings.production")
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "Leopold.settings")
 
 from django.core.wsgi import get_wsgi_application
 
