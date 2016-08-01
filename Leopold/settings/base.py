@@ -1,7 +1,6 @@
 import os
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = '0i9ew9l2n0bh%ks2y&_pa_u=*h&2v%m@ex3pxv)+jd-iud2&18'
 
@@ -83,5 +82,3 @@ USE_L10N = True
 USE_TZ = True
 
 AUTH_USER_MODEL = "common.UserProfile"
-
-ALLOWED_HOSTS = ['*']
