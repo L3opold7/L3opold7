@@ -84,6 +84,9 @@ USE_TZ = True
 AUTH_USER_MODEL = "common.UserProfile"
 
 DEBUG = False
+
+ALLOWED_HOSTS = ['*']
+
 if DEBUG:
     STATIC_URL = '/static/'
     STATIC_ROOT = os.path.join(BASE_DIR, 'static')
