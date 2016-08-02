@@ -1,9 +1,8 @@
-from django.db import models
 from django.contrib.auth.models import User
-
-from imagekit.processors import ResizeToFill
-from imagekit.models import ProcessedImageField
+from django.db import models
 from imagekit.models import ImageSpecField
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 
 class Post(models.Model):

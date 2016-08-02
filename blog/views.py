@@ -1,31 +1,14 @@
-from django.shortcuts import render
-
-# json 응답과 404
-from django.http import JsonResponse, Http404, HttpResponseRedirect
-
-# 클래스뷰 전용 로그인 데코레이터
-from django.contrib.auth.mixins import LoginRequiredMixin
-
-# 일회용 메시지 (세션)
 from django.contrib import messages
-
-# 객체 리스트 뷰 (페이지네이션)
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import ObjectDoesNotExist
+from django.http import JsonResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render
 from django.views.generic import ListView
-
-# 객체 자세히보기 뷰
 from django.views.generic.detail import DetailView
-
-# 객체 생성 뷰, 객체 삭제 뷰
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
-# post 모델 
-from .models import Post, Photo, Comment
-
-# 오브젝트가 없을때 예외
-from django.core.exceptions import ObjectDoesNotExist
-
-# 폼
-from .forms import NewPostForm, PhotoForm, CommentForm
+from .forms import NewPostForm, PhotoForm
+from .models import Post, Photo
 
 '''
 
@@ -160,7 +143,7 @@ def vote_post(request, id):
 
                 return JsonResponse({
                     'status': 'ok'
-                    })
+                })
 
     else:
         raise Http404

@@ -1,35 +1,15 @@
 # 기타
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
 from django.http import Http404
-
-# 객체 자세히 보기 뷰
+from django.shortcuts import render
 from django.views.generic.detail import DetailView
-
-# 장고 수정 뷰
+from django.views.generic.edit import CreateView
 from django.views.generic.edit import DeleteView
 
-# 렌더, 리다이렉트
-from django.shortcuts import render, redirect
-
-# http method 분기가 쉬운 제네릭 뷰
-from django.views.generic import View
-
-# 유저
-from django.contrib.auth.models import User
-
-# 유저 프로필 (점수 들어간 모델)
-from common.models import Profile
-
-# 객체 생성 뷰
-from django.views.generic.edit import CreateView
-
-# 유저 만들기 폼 자동제공
-from django.contrib.auth.forms import UserCreationForm
-
-# Post 모델
 from blog.models import Post
-
-# 일회용 메시지 (세션)
-from django.contrib import messages
+from common.models import Profile
 
 
 # /user/<username>/ 유저 자세히 보기

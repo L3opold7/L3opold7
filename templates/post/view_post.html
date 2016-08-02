@@ -30,11 +30,11 @@
         <h4><span class="glyphicon glyphicon-tags"></span> Tag :  <a href="{% url 'tag_list_post' post.tag %}">#{{ post.tag }}</a></h4>
         </p>
         {% if photos %}
-            {% for photo in photos %}
-                <img src="{{ photo }}" />
-            {% endfor %}
+        {% for photo in photos %}
+        <img src="{{ photo }}" />
+        {% endfor %}
         {% else %}
-            <p>Image isn't uploaded yet.</p>
+        <p>Image isn't uploaded yet.</p>
         {% endif %}
         <p>
             <a href="{% url 'view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성
