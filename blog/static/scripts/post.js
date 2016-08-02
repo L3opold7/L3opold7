@@ -2,7 +2,7 @@ var had = 0;
 
 function vote(id, what, token) {
     if(had === 1) {
-        alert('이미 투표하셨습니다');
+        alert('Already voted!');
     } else {
         $.ajax({
             method: "POST",
@@ -17,25 +17,25 @@ function vote(id, what, token) {
                 var numb = Number($(".vote-number").text()) - 1
             }
             $(".vote-number").text(numb)
-            alert('투표하셨습니다');
+            alert('Complete voted!');
         }).fail(function(res) {
-            alert('잘못된 요청입니다');
+            alert('Wrong Request');
         });
     }
 }
 
 function del(id, token) {
-    var result = confirm('정말 삭제하시겠어요?');
+    var result = confirm('Are you sure?');
     if(result) {
         $.ajax({
             method: "POST",
             url: "/post/" + id + "/delete/",
             data: { csrfmiddlewaretoken: token }
         }).done(function(res) {
-            alert('삭제했습니다');
+            alert('Complete deleted Post!');
             location.replace('/post/');
         }).fail(function(res) {
-            alert('잘못된 요청입니다');
+            alert('Wrong Request');
         });
     } else {
 
