@@ -90,7 +90,7 @@ class NewPost(LoginRequiredMixin, CreateView):
     success_url = '/post/'
 
     def form_valid(self, form):
-        # 글이 등록되기전 who에 현재 로그인유저를 FK로 넣는다
+        # 글이 등록되기전 author에 현재 로그인유저를 FK로 넣는다
         post = form.save(commit=False)
         post.author = self.request.user
         messages.success(self.request, 'Complete created Post')
@@ -104,7 +104,7 @@ class DeletePost(DeleteView):
 
     def get_object(self, queryset=None):
         obj = super(DeletePost, self).get_object()
-        if not obj.who == self.request.user:
+        if not obj.author == self.request.user:
             raise Http404
         return obj
 
@@ -118,12 +118,12 @@ class UpdatePost(LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         obj = super(UpdatePost, self).get_object()
-        if not obj.who == self.request.user:
+        if not obj.author == self.request.user:
             raise Http404
         return obj
 
     def form_valid(self, form):
-        # 글이 등록되기전 who에 현재 로그인유저를 FK로 넣는다
+        # 글이 등록되기전 author에 현재 로그인유저를 FK로 넣는다
         messages.success(self.request, 'Complete updated Post!')
         return super(UpdatePost, self).form_valid(form)
 

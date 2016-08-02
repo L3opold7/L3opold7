@@ -34,9 +34,9 @@ function del(id, token) {
         }).done(function(res) {
             alert('Complete deleted Post!');
             location.replace('/post/');
-        }).fail(function(res) {
-            alert('Wrong Request');
-        });
+        }).fail(function(request,status,error){
+             alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          });
     } else {
 
     }
