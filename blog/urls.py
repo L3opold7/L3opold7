@@ -1,12 +1,27 @@
-from django.conf.urls import url
-from blog import views
+from django.conf.urls import url, include
+from django.contrib import admin
 
+from . import views
 
 urlpatterns = [
-    url(r'^$', views.post_list, name='post_list'),
-    url(r'^post/(?P<pk>[0-9]+)/$', views.post_detail, name='post_detail'),
-    url(r'^post/new/$', views.post_new, name='post_new'),
-    url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
-    url(r'^post/(?P<pk>[0-9]+)/delete/$', views.post_delete, name='post_delete'),
-    url(r'^post/(?P<pk>[0-9]+)/upload_photo$', views.upload_photo, name='upload_photo'),
+    # 글리스트
+    url(r'^$', views.ListPost.as_view(), name='list_post'),
+
+    # 태그로 검색하기
+    url(r'^tag/(?P<slug>[\w-]+)/$', views.TagListPost.as_view(), name='tag_list_post'),
+
+    # 글 새로 쓰기
+    url(r'^new/$', views.NewPost.as_view(), name='new_post'),
+
+    # 글 보기
+    url(r'^(?P<pk>[0-9]+)/$', views.ViewPost.as_view(), name='view_post'),
+
+    # 글 투표 ajax에 사용됨
+    url(r'^(?P<id>[0-9]+)/vote/$', views.vote_post, name='vote_post'),
+
+    # 글 삭제 역시 ajax에서 사용됨
+    url(r'^(?P<pk>[0-9]+)/delete/$', views.DeletePost.as_view(), name='delete_post'),
+
+    # 글 수정
+    url(r'^(?P<pk>[0-9]+)/update/$', views.UpdatePost.as_view(), name='update_post'),
 ]

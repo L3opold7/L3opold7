@@ -1,44 +1,87 @@
+# 기타
+from django.http import Http404
+
+# 객체 자세히 보기 뷰
+from django.views.generic.detail import DetailView
+
+# 장고 수정 뷰
+from django.views.generic.edit import DeleteView
+
+# 렌더, 리다이렉트
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
-from common.models import UserProfile
-from django.db import IntegrityError
+
+# http method 분기가 쉬운 제네릭 뷰
+from django.views.generic import View
+
+# 유저
+from django.contrib.auth.models import User
+
+# 유저 프로필 (점수 들어간 모델)
+from common.models import Profile
+
+# 객체 생성 뷰
+from django.views.generic.edit import CreateView
+
+# 유저 만들기 폼 자동제공
+from django.contrib.auth.forms import UserCreationForm
+
+# Post 모델
+from blog.models import Post
+
+# 일회용 메시지 (세션)
+from django.contrib import messages
 
 
-def register(request):
-    results = {}
-    if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
-        try:
-            user = UserProfile.objects.create(username=username)
-            user.set_password(password)
-            user.save()
-            return redirect('/login/')
-        except IntegrityError:  # unique=True를 이용한 try ... except 코딩
-            results['error'] = 'Already Used!'
-    return render(request, 'register.html', results)
+# /user/<username>/ 유저 자세히 보기
+class ViewUser(DetailView):
+    model = User
+    template_name = 'user/view_user.html'
+    slug_field = 'username'
+    context_object_name = 'p'
+
+    def get_context_data(self, **kwargs):
+        # post_number에 이사람이 적었던 글수를 카운트해서 리턴
+        context = super(ViewUser, self).get_context_data(**kwargs)
+        context["post_number"] = Post.objects.filter(author=self.get_object()).count()
+        return context
 
 
-def login(request):
-    results = {}
-    if request.method == 'POST':
-        username = request.POST.get('username', '')  # username이 있으면 할당, 없으면 두 번째 인자값으로 할당
-        password = request.POST.get('password', '')
-        # 각각 username과 password를 찾아서 있으면 user객체를 반환, 없으면 null 반환
-        user = authenticate(username=username, password=password)
-        if user is not None:
-            auth_login(request, user)  # request와 user 객체를 넘겨줘서 실제 로그인을 시켜주는 메서드
-            return redirect('/')
-        else:
-            results['error'] = 'Wrong! Try Again!'
-    return render(request, 'login.html', results)
+# /post/<username>/delete/ 유저 삭제
+class DeleteUser(DeleteView):
+    model = User
+    success_url = '/'
+    slug_field = 'username'
+
+    def get_object(self, queryset=None):
+        obj = super(DeleteUser, self).get_object()
+        print(obj.id + self.request.user.id)
+        if not obj.id == self.request.user.id:
+            raise Http404
+        return obj
 
 
-def logout(request):
-    auth_logout(request)
-    return redirect('/login/')
+# / 홈
+def home(request):
+    # 메인에 표시할 글 10개
+    posts = Post.objects.all().order_by('-id')[:10]
+    # 글이 10개가 넘어가면 메인에서 [다음] 버튼 표시
+    posts_count = Post.objects.all().count()
+    return render(request, 'home.html', {'posts': posts, 'posts_count': posts_count})
 
 
-def index(request):
-    return render(request, 'login.html')
+# /create/ 가입
+class CreateUser(CreateView):
+    model = User
+    template_name = 'create.html'
+    form_class = UserCreationForm
+    success_url = '/'
 
+    def form_valid(self, form):
+        # profile 따로 저장해줌
+        # 꼼수인데 방법이 되네요
+        user = form.save()
+        p = Profile()
+        p.user = user
+        p.save()
+        messages.success(self.request, '계정이 생성되었습니다')
+        return super(CreateUser, self).form_valid(form)

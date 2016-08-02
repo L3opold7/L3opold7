@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+{% load humanize %}
+
+{% block title %}{{ p.username }} 님{% endblock %}
+
+{% block content %}
+
+<p>
+    가입일 : {{ p.date_joined }}
+</p>
+<p>
+    점수 : {{ p.profile.score }}
+</p>
+<p>
+    적은 글 : {{ post_number }}개
+</p>
+<p>
+    <a class="btn btn-default">비밀번호 수정<span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-default" onclick="delete_user('{{ p.username }}', '{{ csrf_token }}')">Delete Account<span class="glyphicon glyphicon-erase"></span></a>
+</p>
+
+<script src="{% static 'scripts/user.js' %}"></script>
+
+{% endblock %}

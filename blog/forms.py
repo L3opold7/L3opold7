@@ -1,17 +1,27 @@
-from django.forms import ModelForm
+from django import forms
 
-from blog.models import Post, Photo
+from .models import Post, Photo, Comment
 
 
-class PostForm(ModelForm):
-
+class NewPostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ('title', 'text')
+        fields = ['title', 'content', 'tag']
+
+    title = forms.CharField(label='title', max_length=30)
+    content = forms.CharField(label='content')
+    tag = forms.CharField(label='tag', max_length=20)
 
 
-class PhotoForm(ModelForm):
+class PhotoForm(forms.ModelForm):
 
     class Meta:
         model = Photo
         fields = ('photo', )
+
+
+class CommentForm(forms.ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ('author', 'post', 'content', )

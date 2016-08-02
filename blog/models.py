@@ -1,16 +1,17 @@
 from django.db import models
-from imagekit.models import ImageSpecField
-
-from common.models import UserProfile
+from django.contrib.auth.models import User
 
 from imagekit.processors import ResizeToFill
 from imagekit.models import ProcessedImageField
+from imagekit.models import ImageSpecField
 
 
 class Post(models.Model):
-    author = models.ForeignKey(UserProfile)
-    title = models.CharField(max_length=100)
-    text = models.TextField()
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=30)
+    content = models.CharField(max_length=300)
+    vote = models.IntegerField(default=0)
+    tag = models.CharField(max_length=20)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -34,3 +35,8 @@ class Photo(models.Model):
                                      format='JPEG',
                                      options={'qulity': 60})
 
+
+class Comment(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content = models.CharField(max_length=200)

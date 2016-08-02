@@ -11,10 +11,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'blog',
     'common',
     'imagekit',
-    'pipeline',
     'storages',
 )
 
@@ -56,23 +56,44 @@ TEMPLATES = [
     },
 ]
 
-# Django Pipeline
-PIPELINE = {
-    'PIPELINE_ENABLED': True,
-    'STYLESHEETS': {
-        'blog': {
-            'source_filename': (
-                'css/blog.css',
-            ),
-            'output_filename': 'css/blog.css'
-        }
-    }
-}
-
 WSGI_APPLICATION = 'Leopold.wsgi.application'
 
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
-LANGUAGE_CODE = 'en-us'
+
+# SESSION 설정
+
+# 세션 기본 유지 시간 (초 단위)
+# 여기선 30분으로 정함
+SESSION_COOKIE_AGE = 60 * 10 * 3
+
+# 요청마다 세션시간을 늘릴것인가?
+# 첫번째 요청후 n초뒤에 요청하면 세션 유지시간이 n초 늘어남
+SESSION_SAVE_EVERY_REQUEST = True
+
+
+# AUTH 설정
+
+# 로그인 성공시 리다이렉트
+LOGIN_REDIRECT_URL = '/'
+
+# 로그인을 하지 않았을때 리다이렉트할 곳
+LOGIN_URL = '/login/'
+
+LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
 
@@ -82,19 +103,18 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = "common.UserProfile"
-
 ALLOWED_HOSTS = ['*']
 
-DEBUG = False
+DEBUG = True
 
 if DEBUG:
     STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static'),
+    ]
 
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+    MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
 
 else:
 
