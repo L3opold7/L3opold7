@@ -1,6 +1,7 @@
+from django.shortcuts import render
 
 # json 응답과 404
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponseRedirect
 
 # 클래스뷰 전용 로그인 데코레이터
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -18,19 +19,16 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 # post 모델 
-from .models import Post
+from .models import Post, Photo, Comment
 
 # 오브젝트가 없을때 예외
 from django.core.exceptions import ObjectDoesNotExist
 
 # 폼
-from .forms import NewPostForm
+from .forms import NewPostForm, PhotoForm, CommentForm
 
 '''
 
-이왕 만드는 김에 CBV 활용을 많이 해봤습니다
-
-설명
 model = 사용될 모델
 template_name = 템플릿 이름 ( 정의를 안해주면 고유 템플릿 사용 )
 context_object_name = 템플릿에서 사용될 이름 ( 정의를 안해주면 기본 object나 모델이름이 사용됨 제네릭 뷰에 따라 다름)
@@ -46,9 +44,15 @@ def form_valid = 폼 검증 완료시
 class ListPost(ListView):
     model = Post
     template_name = 'post/list_post.html'
-    context_object_name = 'posts'
     paginate_by = 10
-    queryset = Post.objects.order_by('-id')
+
+    def get_context_data(self, **kwargs):
+        context = super(ListPost, self).get_context_data(**kwargs)
+        posts = Post.objects.order_by('-id')
+        thumbs = Photo.objects.all()
+        context['posts'] = posts
+        context['thumbs'] = thumbs
+        return context
 
 
 # /post/tag/<tag> 태그 검색 결과 리스트
@@ -68,6 +72,15 @@ class ViewPost(DetailView):
     model = Post
     template_name = 'post/view_post.html'
 
+    def get_context_data(self, **kwargs):
+        context = super(ViewPost, self).get_context_data(**kwargs)
+        photos = Photo.objects.filter(post=self.get_object())
+        photos_url = []
+        for photo in photos:
+            photos_url.append(photo.photo.url)
+        context["photos"] = photos_url
+        return context
+
 
 # /post/new/ 글 쓰기
 class NewPost(LoginRequiredMixin, CreateView):
@@ -80,7 +93,7 @@ class NewPost(LoginRequiredMixin, CreateView):
         # 글이 등록되기전 who에 현재 로그인유저를 FK로 넣는다
         post = form.save(commit=False)
         post.author = self.request.user
-        messages.success(self.request, '글이 작성되었습니다')
+        messages.success(self.request, 'Complete created Post')
         return super(NewPost, self).form_valid(form)
 
 
@@ -111,7 +124,7 @@ class UpdatePost(LoginRequiredMixin, UpdateView):
 
     def form_valid(self, form):
         # 글이 등록되기전 who에 현재 로그인유저를 FK로 넣는다
-        messages.success(self.request, '글을 수정했습니다')
+        messages.success(self.request, 'Complete updated Post!')
         return super(UpdatePost, self).form_valid(form)
 
 
@@ -137,12 +150,12 @@ def vote_post(request, id):
             else:
                 if what =='up':
                     # up인경우 vote를 + 1
-                    post.vote = post.vote + 1
+                    post.vote += 1
                     post.save()
 
                 else:
                     # down인경우 vote를 -1
-                    post.vote = post.vote -1
+                    post.vote -= 1
                     post.save()
 
                 return JsonResponse({
@@ -151,3 +164,16 @@ def vote_post(request, id):
 
     else:
         raise Http404
+
+
+def upload_photo(request, pk):
+    if request.method == 'POST':
+        form = PhotoForm(request.POST, request.FILES)
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.post = Post.objects.get(id=pk)
+            photo.save()
+            return HttpResponseRedirect('/')
+    else:
+        form = PhotoForm()
+    return render(request, 'post/upload_photo.html', {'photo_form': form})

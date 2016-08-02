@@ -2,6 +2,6 @@
 db.sqlite3
 __pycache__
 /media/
-static/
+/static/
 CACHE/
 photos/

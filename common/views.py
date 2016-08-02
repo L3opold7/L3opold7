@@ -77,11 +77,9 @@ class CreateUser(CreateView):
     success_url = '/'
 
     def form_valid(self, form):
-        # profile 따로 저장해줌
-        # 꼼수인데 방법이 되네요
         user = form.save()
         p = Profile()
         p.user = user
         p.save()
-        messages.success(self.request, '계정이 생성되었습니다')
+        messages.success(self.request, 'Complete created User!')
         return super(CreateUser, self).form_valid(form)

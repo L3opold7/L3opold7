@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% load staticfiles %}
+{% load imagekit %}
 {% load humanize %}
 
-{% block title %}{{ post.title }} - Bookmark{% endblock %}
+{% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
 
@@ -26,15 +27,23 @@
             {{ post.content }}
         </p>
         <p>
-        <h4><span class="glyphicon glyphicon-tags"></span> 태그 :  <a href="{% url 'tag_list_post' post.tag %}">#{{ post.tag }}</a></h4>
+        <h4><span class="glyphicon glyphicon-tags"></span> Tag :  <a href="{% url 'tag_list_post' post.tag %}">#{{ post.tag }}</a></h4>
         </p>
+        {% if photos %}
+            {% for photo in photos %}
+                <img src="{{ photo }}" />
+            {% endfor %}
+        {% else %}
+            <p>Image isn't uploaded yet.</p>
+        {% endif %}
         <p>
             <a href="{% url 'view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성
         </p>
         {% if post.author == user %}
         <p>
-            <a href="{% url 'update_post' post.id %}">Update</a> |
-            <a href="#" onclick="del({{ post.id }}, '{{ csrf_token }}')">Delete</a>
+            <a href="{% url 'update_post' post.id %}">Update<span class="glyphicon glyphicon-pencil"></span></a> |
+            <a href="#" onclick="del({{ post.id }}, '{{ csrf_token }}')">Delete<span class="glyphicon glyphicon-trash"></span></a> |
+            <a href="{% url 'upload_photo' pk=post.pk %}">Upload Photo<span class="glyphicon glyphicon-camera"></span></a>
         </p>
         {% endif %}
     </div>

@@ -15,6 +15,7 @@ INSTALLED_APPS = (
     'blog',
     'common',
     'imagekit',
+    'pipeline',
     'storages',
 )
 
@@ -58,6 +59,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Leopold.wsgi.application'
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -73,6 +75,28 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# Django Pipeline
+PIPELINE = {
+    'PIPELINE_ENABLED': True,
+    'STYLESHEETS': {
+        'blog': {
+            'source_filename': (
+                'css/other.css',
+            ),
+            'output_filename': 'css/blog.css'
+        }
+    },
+    'JAVASCRIPT': {
+        'blog': {
+            'source_filename': (
+                'js/home.js',
+                'js/post.js',
+                'js/user.js',
+            ),
+            'output_filename': 'js/blog.js'
+        }
+    },
+}
 
 # SESSION 설정
 
@@ -109,12 +133,11 @@ DEBUG = True
 
 if DEBUG:
     STATIC_URL = '/static/'
-    STATICFILES_DIRS = [
-        os.path.join(BASE_DIR, 'static'),
-    ]
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 
     MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 else:
 

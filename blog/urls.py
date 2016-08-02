@@ -24,4 +24,7 @@ urlpatterns = [
 
     # 글 수정
     url(r'^(?P<pk>[0-9]+)/update/$', views.UpdatePost.as_view(), name='update_post'),
+
+    # 사진 업로드
+    url(r'^(?P<pk>[0-9]+)/upload_photo/$', views.upload_photo, name='upload_photo'),
 ]

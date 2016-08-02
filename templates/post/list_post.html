@@ -10,6 +10,13 @@
 <div class="bottom-hr row">
     <h3><a href="{% url 'view_post' post.id %}">{{ post.title }}</a></h3>
     <h5>{{ post.content|truncatechars:15 }}</h5>
+    {% if thumbs %}
+        {% for thumb in thumbs %}
+            {% if thumb.post.id is post.id %}
+                <img src="{{ thumb.photo_thumbnail.url }}" />
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <p>
         Score : {{ post.vote }} 개 |
         <a href="{% url 'view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성함
@@ -29,7 +36,7 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">다음페이지</a>
+            <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
         {% endif %}
     </span>
 </div>
