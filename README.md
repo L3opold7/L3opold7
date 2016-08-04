@@ -31,8 +31,8 @@ Pycharm Comunity version 2016.02 버전 사용
 ## 실행 방법
 
 ```shell
-$ git clone https://github.com/Leop0ld/L3opold7.git
-$ cd L3opold7
+$ git clone https://github.com/Leop0ld/Leopold.git
+$ cd Leopold
 $ pip install -r requirements.txt
 $ python manage.py migrate
 $ python manage.py collectstatic
