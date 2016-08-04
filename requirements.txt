@@ -1,6 +1,6 @@
 boto==2.42.0
 codegen==1.0
-Django==1.10rc1
+Django==1.10
 django-appconf==1.0.2
 django-imagekit==3.3
 django-pipeline==1.6.8
