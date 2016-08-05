@@ -12,4 +12,5 @@ patterns==0.3
 pbr==1.10.0
 pilkit==1.1.13
 Pillow==3.3.0
+pytz==2016.6.1
 six==1.10.0

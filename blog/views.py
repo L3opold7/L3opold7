@@ -1,15 +1,12 @@
-from django.http import HttpResponseRedirect
+from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, TemplateView, FormView
 from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthArchiveView
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
+from tagging.views import TaggedObjectList
 
 from blog.forms import PhotoForm, PostSearchForm
-from django.db.models import Q
-from django.shortcuts import render
 from blog.models import Post
-from tagging.models import Tag, TaggedItem
-from tagging.views import TaggedObjectList
 
 
 class TagTV(TemplateView):
