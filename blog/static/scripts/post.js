@@ -24,12 +24,12 @@ function vote(id, what, token) {
     }
 }
 
-function del(id, token) {
+function del(slug, token) {
     var result = confirm('Are you sure?');
     if(result) {
         $.ajax({
             method: "POST",
-            url: "/post/" + id + "/delete/",
+            url: "/post/" + slug + "/delete/",
             data: { csrfmiddlewaretoken: token }
         }).done(function(res) {
             alert('Complete deleted Post!');

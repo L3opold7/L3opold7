@@ -8,18 +8,18 @@
 
 {% for post in posts %}
 <div class="bottom-hr row">
-    <h3><a href="{% url 'view_post' post.id %}">{{ post.title }}</a></h3>
+    <h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
     <h5>{{ post.link|truncatechars:15 }}</h5>
     <p>
         점수 : {{ post.vote }} 개 |
-        <a href="{% url 'view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성함
+        <a href="{% url 'common:view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성함
     </p>
 </div>
 {% endfor %}
 {% if posts_count > 10 %}
 <p>
     <br>
-    <a class="btn btn-primary" href="{% url 'list_post' %}?page=2">Next Page</a>
+    <a class="btn btn-primary" href="{% url 'blog:index' %}?page=2">Next Page</a>
 </p>
 {% endif %}
 

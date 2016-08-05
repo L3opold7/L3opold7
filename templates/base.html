@@ -30,19 +30,19 @@
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
                 {% if request.path == '/post/' %}
-                <li class="active"><a href="{% url 'list_post' %}">Post List</a></li>
+                    <li class="active"><a href="{% url 'blog:index' %}">Post List</a></li>
                 {% else %}
-                <li><a href="{% url 'list_post' %}">Post List</a></li>
+                    <li><a href="{% url 'blog:index' %}">Post List</a></li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                <li><a href="{% url 'view_user' user.username %}">{{ user.username }} 님</a></li>
+                <li><a href="{% url 'common:view_user' user.username %}">{{ user.username }} 님</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
-                <li><a href="{% url 'new_post' %}">Write Post</a></li>
+                <li><a href="{% url 'blog:new_post' %}">Write Post</a></li>
                 {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'create' %}">Create Account</a></li>
+                <li><a href="{% url 'common:create' %}">Create Account</a></li>
                 {% endif %}
             </ul>
         </div>

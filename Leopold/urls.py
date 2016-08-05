@@ -18,7 +18,7 @@ urlpatterns = [
                   url('^', include('django.contrib.auth.urls')),
 
                   # 글
-                  url(r'^post/', include('blog.urls')),
-                  url(r'^', include('common.urls')),
+                  url(r'^post/', include('blog.urls', namespace='blog')),
+                  url(r'^', include('common.urls', namespace='common')),
               ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

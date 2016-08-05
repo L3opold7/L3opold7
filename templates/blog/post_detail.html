@@ -15,11 +15,11 @@
     </p>
     <div class="col-md-1 text-center">
         {% if user.is_authenticated %}
-        <a href="#" onclick="vote({{ post.id }}, 'up', '{{ csrf_token }}')"><span class="big-icon glyphicon glyphicon-thumbs-up"></span></a>
-        <h2 class="vote-number">{{ post.vote }}</h2>
-        <a href="#" onclick="vote({{ post.id }}, 'down', '{{ csrf_token }}')"><span class="big-icon glyphicon glyphicon-thumbs-down"></span></a>
+            <a href="#" onclick="vote({{ post.id }}, 'up', '{{ csrf_token }}')"><span class="big-icon glyphicon glyphicon-thumbs-up"></span></a>
+            <h2 class="vote-number">{{ post.vote }}</h2>
+            <a href="#" onclick="vote({{ post.id }}, 'down', '{{ csrf_token }}')"><span class="big-icon glyphicon glyphicon-thumbs-down"></span></a>
         {% else %}
-        <h2 class="vote-number">{{ post.vote }}</h2>
+            <h2 class="vote-number">{{ post.vote }}</h2>
         {% endif %}
     </div>
     <div class="col-md-11">
@@ -27,7 +27,14 @@
             {{ post.content }}
         </p>
         <p>
-        <h4><span class="glyphicon glyphicon-tags"></span> Tag :  <a href="{% url 'tag_list_post' post.tag %}">#{{ post.tag }}</a></h4>
+        <h4>
+        {% load tagging_tags %}
+        {% tags_for_object object as tags %}
+        {% for tag in tags %}
+            <span class="glyphicon glyphicon-tags"></span> Tag : <a href="{% url 'blog:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
+        {% endfor %}
+        </h4>
+        <a href="{% url 'blog:tag_cloud' %}"><i>[ Tag Cloud ]</i></a>
         </p>
         {% if photos %}
         {% for photo in photos %}
@@ -37,13 +44,13 @@
         <p>Image isn't uploaded yet.</p>
         {% endif %}
         <p>
-            <a href="{% url 'view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성
+            <a href="{% url 'common:view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성
         </p>
         {% if post.author == user %}
         <p>
-            <a href="{% url 'update_post' post.id %}">Update<span class="glyphicon glyphicon-pencil"></span></a> |
-            <a href="#" onclick="del({{ post.id }}, '{{ csrf_token }}')">Delete<span class="glyphicon glyphicon-trash"></span></a> |
-            <a href="{% url 'upload_photo' pk=post.pk %}">Upload Photo<span class="glyphicon glyphicon-camera"></span></a>
+            <a href="{% url 'blog:update_post' post.slug %}">Update<span class="glyphicon glyphicon-pencil"></span></a> |
+            <a href="#" onclick="del('{{ post.slug }}', '{{ csrf_token }}')">Delete<span class="glyphicon glyphicon-trash"></span></a> |
+            <a href="{% url 'blog:upload_photo' post.slug %}">Upload Photo<span class="glyphicon glyphicon-camera"></span></a>
         </p>
         {% endif %}
     </div>

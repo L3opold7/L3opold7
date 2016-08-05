@@ -4,6 +4,7 @@ from imagekit.models import ImageSpecField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 from tagging.fields import TagField
+from django.utils.text import slugify
 
 
 class Post(models.Model):
@@ -11,7 +12,8 @@ class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.CharField(max_length=300)
     vote = models.IntegerField(default=0)
-    tag = TagField()
+    slug = models.SlugField(unique=True, allow_unicode=True, help_text='One word for title alias.')
+    tag = TagField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -21,6 +23,11 @@ class Post(models.Model):
         :return self.title:
         """
         return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super(Post, self).save(self, *args, **kwargs)
 
 
 class Photo(models.Model):

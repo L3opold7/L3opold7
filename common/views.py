@@ -42,8 +42,8 @@ class DeleteUser(DeleteView):
 
 # / 홈
 def home(request):
-    # 메인에 표시할 글 10개
-    posts = Post.objects.all().order_by('-id')[:10]
+    # 메인에 표시할 글 5개
+    posts = Post.objects.all().order_by('-id')[:5]
     # 글이 10개가 넘어가면 메인에서 [다음] 버튼 표시
     posts_count = Post.objects.all().count()
     return render(request, 'home.html', {'posts': posts, 'posts_count': posts_count})

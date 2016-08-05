@@ -3,10 +3,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import JsonResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
-
+from tagging.models import Tag, TaggedItem
+from tagging.views import TaggedObjectList
 from .forms import NewPostForm, PhotoForm
 from .models import Post, Photo
 
@@ -24,13 +25,13 @@ def form_valid = 폼 검증 완료시
 
 
 # /post/ 글 리스트
-class ListPost(ListView):
+class PostLV(ListView):
     model = Post
-    template_name = 'post/list_post.html'
-    paginate_by = 10
+    template_name = 'blog/post_all.html'
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
-        context = super(ListPost, self).get_context_data(**kwargs)
+        context = super(PostLV, self).get_context_data(**kwargs)
         posts = Post.objects.order_by('-id')
         thumbs = Photo.objects.all()
         context['posts'] = posts
@@ -38,25 +39,12 @@ class ListPost(ListView):
         return context
 
 
-# /post/tag/<tag> 태그 검색 결과 리스트
-class TagListPost(ListView):
-    model = Post
-    template_name = 'post/list_post.html'
-    slug_field = 'tag'
-    context_object_name = 'posts'
-    paginate_by = 10
-
-    def get_queryset(self, *args, **kwargs):
-        return Post.objects.filter(tag=self.kwargs['slug'])
-
-
 # /post/<id>/ 글 보기
-class ViewPost(DetailView):
+class PostDV(DetailView):
     model = Post
-    template_name = 'post/view_post.html'
 
     def get_context_data(self, **kwargs):
-        context = super(ViewPost, self).get_context_data(**kwargs)
+        context = super(PostDV, self).get_context_data(**kwargs)
         photos = Photo.objects.filter(post=self.get_object())
         photos_url = []
         for photo in photos:
@@ -68,7 +56,7 @@ class ViewPost(DetailView):
 # /post/new/ 글 쓰기
 class NewPost(LoginRequiredMixin, CreateView):
     model = Post
-    template_name = 'post/new_post.html'
+    template_name = 'blog/new_post.html'
     form_class = NewPostForm
     success_url = '/post/'
 
@@ -95,7 +83,7 @@ class DeletePost(DeleteView):
 # /post/<id>/update/ 글 수정
 class UpdatePost(LoginRequiredMixin, UpdateView):
     model = Post
-    template_name = 'post/update_post.html'
+    template_name = 'blog/update_post.html'
     form_class = NewPostForm
     success_url = '/post/'
 
@@ -149,14 +137,23 @@ def vote_post(request, id):
         raise Http404
 
 
-def upload_photo(request, pk):
+def upload_photo(request, slug):
     if request.method == 'POST':
         form = PhotoForm(request.POST, request.FILES)
         if form.is_valid():
             photo = form.save(commit=False)
-            photo.post = Post.objects.get(id=pk)
+            photo.post = Post.objects.get(slug=slug)
             photo.save()
             return HttpResponseRedirect('/')
     else:
         form = PhotoForm()
-    return render(request, 'post/upload_photo.html', {'photo_form': form})
+    return render(request, 'blog/upload_photo.html', {'photo_form': form})
+
+
+class TagTV(TemplateView):
+    template_name = 'tagging/tagging_cloud.html'
+
+
+class PostTOL(TaggedObjectList):
+    model = Post
+    template_name = 'tagging/tagging_post_list.html'
