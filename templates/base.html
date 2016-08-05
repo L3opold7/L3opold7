@@ -14,7 +14,7 @@
 
 <div id="header">
     <h2 class="maintitle">Easy&amp;Fast Django Web Programming</h2>
-    <h4 class="welcome">Welcome, <a href="#">Leop0ld</a> /
+    <h4 class="welcome">Welcome, <a href="#">{{ user }}</a> /
                 <a href="#">Change Password</a> /
                 <a href="#">Logout</a>
     </h4>
@@ -42,7 +42,7 @@
     </li>
 
     <li><a href="{% url 'blog:post_archive' %}">Archive</a></li>
-    <li><a href="#">Search</a></li>
+    <li><a href="{% url 'blog:search' %}">Search</a></li>
     <li><a href="{% url 'admin:index' %}">Admin</a></li>
 </div>
 
