@@ -1,32 +1,51 @@
-from django.conf.urls import url
+"""mysite URL Configuration
 
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/1.9/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
+Including another URLconf
+    1. Add an import:  from blog import urls as blog_urls
+    2. Import the include() function: from django.conf.urls import url, include
+    3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
+"""
+from django.conf.urls import url
 from blog.views import *
 
 urlpatterns = [
-    # 글리스트
+
+    # Example: /
     url(r'^$', PostLV.as_view(), name='index'),
 
-    # 글 새로 쓰기
-    url(r'^new/$', NewPost.as_view(), name='new_post'),
+    # Example: /post/ (same as /)
+    url(r'^post/$', PostLV.as_view(), name='post_list'),
 
-    # 글 보기
-    url(r'^(?P<slug>[-\w]+)/$', PostDV.as_view(), name='post_detail'),
+    # Example: /post/django-example/
+    url(r'^post/(?P<slug>[-\w]+)/$', PostDV.as_view(), name='post_detail'),
 
-    # 글 투표 ajax에 사용됨
-    url(r'^(?P<slug>[-\w]+)/vote/$', vote_post, name='vote_post'),
+    # Example: /archive/
+    url(r'^archive/$', PostAV.as_view(), name='post_archive'),
 
-    # 글 삭제 역시 ajax에서 사용됨
-    url(r'^(?P<slug>[-\w]+)/delete/$', DeletePost.as_view(), name='delete_post'),
+    # Example: /2012/
+    url(r'^(?P<year>\d{4})/$', PostYAV.as_view(), name='post_year_archive'),
 
-    # 글 수정
-    url(r'^(?P<slug>[-\w]+)/update/$', UpdatePost.as_view(), name='update_post'),
+    # Example: /2012/nov/
+    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/$', PostMAV.as_view(), name='post_month_archive'),
 
-    # 사진 업로드
-    url(r'^(?P<slug>[-\w]+)/upload_photo/$', upload_photo, name='upload_photo'),
+    # Example: /2012/nov/10/
+    url(r'^(?P<year>\d{4})/(?P<month>[a-z]{3})/(?P<day>\d{1,2})/$', PostDAV.as_view(), name='post_day_archive'),
 
-    # 태그 클라우드
+    # Example: /today/
+    url(r'^today/$', PostTAV.as_view(), name='post_today_archive'),
+
+    # Example: /tag/
     url(r'^tag/$', TagTV.as_view(), name='tag_cloud'),
 
-    # 글에서 태그 리스트
+    # Example: /tag/tagname/
     url(r'^tag/(?P<tag>[^/]+(?u))/$', PostTOL.as_view(), name='tagged_object_list'),
 ]

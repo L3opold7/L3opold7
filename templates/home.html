@@ -1,26 +1,50 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load humanize %}
+{% block title %}home.html{% endblock %}
 
-{% block title %}Leopold{% endblock %}
+{% load staticfiles %}
+{% block extrastyle %}{% static "css/home.css" %}{% endblock %}
 
 {% block content %}
 
-{% for post in posts %}
-<div class="bottom-hr row">
-    <h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
-    <h5>{{ post.link|truncatechars:15 }}</h5>
-    <p>
-        점수 : {{ post.vote }} 개 |
-        <a href="{% url 'common:view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성함
-    </p>
-</div>
-{% endfor %}
-{% if posts_count > 10 %}
-<p>
-    <br>
-    <a class="btn btn-primary" href="{% url 'blog:index' %}?page=2">Next Page</a>
-</p>
-{% endif %}
+<div id="content_home">
 
-{% endblock %}
+    <div id="homeimg">
+        <a href="/"><img src="{% static 'img/django-actor-big.jpg' %}" style="height:256px;"/></a>
+        <h4 style="margin: 0;">This is Django powered web site.</h4>
+    </div>
+
+    <hr style="margin: 5px 0;">
+
+    <h2>Select Application</h2>
+
+    <table id="applist">
+        <tr>
+        <td><b><i><a href="{% url 'bookmark:index' %}">Bookmark</a></i><b></td>
+        <td>You can write your own post and share to others. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo</td>
+        <td class="Edit"><i><a href="#">Add</a></i></td>
+        <td class="Edit"><i><a href="#">Change</a></i></td>
+        </tr>
+
+        <tr>
+        <td><b><i><a href="{% url 'blog:index' %}">Blog</a></i><b></td>
+        <td>You can write your own post and share to others. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo</td>
+        <td class="Edit"><i><a href="#">Add</a></i></td>
+        <td class="Edit"><i><a href="#">Change</a></i></td>
+        </tr>
+
+        <tr>
+        <td><b><i><a href="#">Photo</a></i><b></td>
+        <td>You can write your own post and share to others. Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo</td>
+        <td class="Edit"><i><a href="#">Add</a></i></td>
+        <td class="Edit"><i><a href="#">Change</a></i></td>
+        </tr>
+    </table>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<div id="footer">
+    &copy; Leopold 2016
+</div>
+{% endblock footer %}

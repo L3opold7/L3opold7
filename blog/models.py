@@ -1,33 +1,40 @@
-from django.contrib.auth.models import User
+from __future__ import unicode_literals
+
+from django.core.urlresolvers import reverse
 from django.db import models
-from imagekit.models import ImageSpecField
-from imagekit.models import ProcessedImageField
+from django.utils.encoding import python_2_unicode_compatible
+from imagekit.models import ProcessedImageField, ImageSpecField
 from imagekit.processors import ResizeToFill
 from tagging.fields import TagField
-from django.utils.text import slugify
 
 
+@python_2_unicode_compatible
 class Post(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    title = models.CharField(max_length=30)
-    content = models.CharField(max_length=300)
-    vote = models.IntegerField(default=0)
-    slug = models.SlugField(unique=True, allow_unicode=True, help_text='One word for title alias.')
-    tag = TagField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    modified_at = models.DateTimeField(auto_now=True)
+    title = models.CharField('TITLE', max_length=50)
+    slug = models.SlugField('SLUG', unique=True, allow_unicode=True, help_text='one word for title alias.')
+    description = models.CharField('DESCRIPTION', max_length=100, blank=True, help_text='simple description text.')
+    content = models.TextField('CONTENT')
+    create_date = models.DateTimeField('Create Date', auto_now_add=True)
+    modify_date = models.DateTimeField('Modify Date', auto_now=True)
+    tag = TagField()
+
+    class Meta:
+        verbose_name = 'post'
+        verbose_name_plural = 'posts'
+        db_table  = 'blog_posts'
+        ordering  = ('-modify_date',)
 
     def __str__(self):
-        """
-        return Post's title
-        :return self.title:
-        """
         return self.title
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.slug = slugify(self.title, allow_unicode=True)
-        super(Post, self).save(self, *args, **kwargs)
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', args=(self.slug,))
+
+    def get_previous_post(self):
+        return self.get_previous_by_modify_date()
+
+    def get_next_post(self):
+        return self.get_next_by_modify_date()
 
 
 class Photo(models.Model):

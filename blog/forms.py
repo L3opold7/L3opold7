@@ -1,12 +1,6 @@
 from django import forms
 
-from .models import Post, Photo
-
-
-class NewPostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ('title', 'content', 'tag', )
+from blog.models import Photo
 
 
 class PhotoForm(forms.ModelForm):

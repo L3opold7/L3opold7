@@ -12,12 +12,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    'blog',
-    'common',
+    'blog.apps.BlogConfig',
+    'common.apps.CommonConfig',
     'imagekit',
-    'pipeline',
     'storages',
     'tagging.apps.TaggingConfig',
+    'bookmark.apps.BookmarkConfig',
 )
 
 # Database
@@ -76,48 +76,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-# Django Pipeline
-PIPELINE = {
-    'PIPELINE_ENABLED': True,
-    'STYLESHEETS': {
-        'blog': {
-            'source_filename': (
-                'css/other.css',
-            ),
-            'output_filename': 'css/blog.css'
-        }
-    },
-    'JAVASCRIPT': {
-        'blog': {
-            'source_filename': (
-                'js/home.js',
-                'js/post.js',
-                'js/user.js',
-            ),
-            'output_filename': 'js/blog.js'
-        }
-    },
-}
-
-# SESSION 설정
-
-# 세션 기본 유지 시간 (초 단위)
-# 여기선 30분으로 정함
-SESSION_COOKIE_AGE = 60 * 10 * 3
-
-# 요청마다 세션시간을 늘릴것인가?
-# 첫번째 요청후 n초뒤에 요청하면 세션 유지시간이 n초 늘어남
-SESSION_SAVE_EVERY_REQUEST = True
-
-
-# AUTH 설정
-
-# 로그인 성공시 리다이렉트
-LOGIN_REDIRECT_URL = '/'
-
-# 로그인을 하지 않았을때 리다이렉트할 곳
-LOGIN_URL = '/login/'
-
 LANGUAGE_CODE = 'ko-kr'
 
 TIME_ZONE = 'Asia/Seoul'
@@ -134,8 +92,7 @@ DEBUG = True
 
 if DEBUG:
     STATIC_URL = '/static/'
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
+    STATIC_ROOT = [os.path.join(BASE_DIR, 'static')]
 
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

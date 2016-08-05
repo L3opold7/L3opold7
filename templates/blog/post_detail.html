@@ -1,82 +1,38 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load staticfiles %}
-{% load imagekit %}
-{% load humanize %}
-
-{% block title %}{{ post.title }}{% endblock %}
+{% block title %}post_detail.html{% endblock %}
 
 {% block content %}
+<div id="content">
+
+<h2>{{ object.title }}</h2>
+
+<p class="other_posts">
+    {% if object.get_previous_by_modify_date %}
+    <a href="{{ object.get_previous_post.get_absolute_url }}" title="View previous post">&laquo;--{{ object.get_previous_post }}</a>
+    {% endif %}
+
+    {% if object.get_next_by_modify_date %}
+    | <a href="{{ object.get_next_post.get_absolute_url }}" title="View next post">{{ object.get_next_post }}--&raquo;</a>
+    {% endif %}
+</p>
+
+<p class="date">{{ object.modify_date|date:"j F Y" }}</p>
+<br/>
+
+<div class="body">
+    {{ object.content|linebreaks }}
+</div>
 
 <div>
-    <p>
-    <h2>{{ post.title }}</h2>
-    <hr>
-    </p>
-    <div class="col-md-1 text-center">
-        {% if user.is_authenticated %}
-            <a href="#" onclick="vote({{ post.id }}, 'up', '{{ csrf_token }}')"><span class="big-icon glyphicon glyphicon-thumbs-up"></span></a>
-            <h2 class="vote-number">{{ post.vote }}</h2>
-            <a href="#" onclick="vote({{ post.id }}, 'down', '{{ csrf_token }}')"><span class="big-icon glyphicon glyphicon-thumbs-down"></span></a>
-        {% else %}
-            <h2 class="vote-number">{{ post.vote }}</h2>
-        {% endif %}
-    </div>
-    <div class="col-md-11">
-        <p>
-            {{ post.content }}
-        </p>
-        <p>
-        <h4>
-        {% load tagging_tags %}
-        {% tags_for_object object as tags %}
-        {% for tag in tags %}
-            <span class="glyphicon glyphicon-tags"></span> Tag : <a href="{% url 'blog:tagged_object_list' tag.name %}">#{{ tag.name }}</a>
-        {% endfor %}
-        </h4>
-        <a href="{% url 'blog:tag_cloud' %}"><i>[ Tag Cloud ]</i></a>
-        </p>
-        {% if photos %}
-        {% for photo in photos %}
-        <img src="{{ photo }}" />
-        {% endfor %}
-        {% else %}
-        <p>Image isn't uploaded yet.</p>
-        {% endif %}
-        <p>
-            <a href="{% url 'common:view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성
-        </p>
-        {% if post.author == user %}
-        <p>
-            <a href="{% url 'blog:update_post' post.slug %}">Update<span class="glyphicon glyphicon-pencil"></span></a> |
-            <a href="#" onclick="del('{{ post.slug }}', '{{ csrf_token }}')">Delete<span class="glyphicon glyphicon-trash"></span></a> |
-            <a href="{% url 'blog:upload_photo' post.slug %}">Upload Photo<span class="glyphicon glyphicon-camera"></span></a>
-        </p>
-        {% endif %}
-    </div>
+<b>TAGS: </b>
+{% load tagging_tags %}
+{% tags_for_object object as tags %}
+{% for tag in tags %}
+<a href="{% url 'blog:tagged_object_list' tag.name %}">{{tag.name}}</a>
+{% endfor %}
+<a href="{% url 'blog:tag_cloud' %}"><i>[ TagCloud ]</i></a>
 </div>
-<div id="disqus_thread"></div>
-<script>
 
-/**
- *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
- *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
-/*
-var disqus_config = function () {
-    this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-};
-*/
-(function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//leop0ld.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-})();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-<script id="dsq-count-scr" src="//leop0ld.disqus.com/count.js" async></script>
-<script src="{% static 'scripts/post.js' %}"></script>
-
+</div>
 {% endblock %}

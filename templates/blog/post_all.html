@@ -1,43 +1,34 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% load humanize %}
-
-{% block title %}IndeX{% endblock %}
+{% block title %}post_all.html{% endblock %}
 
 {% block content %}
+<div id="content">
 
-    {% for post in posts %}
-        <div class="bottom-hr row">
-            <h3><a href="{% url 'blog:post_detail' post.slug %}">{{ post.title }}</a></h3>
-            <h5>{{ post.content|truncatechars:15 }}</h5>
+<h1>Blog List</h1>
 
-            {% for thumb in thumbs %}
-                {% if thumb.post.id == post.id %}
-                    <img src="{{ thumb.photo_thumbnail.url }}" />
-                {% endif %}
-            {% endfor %}
-            <p>
-                Score : {{ post.vote }} 개 |
-                <a href="{% url 'common:view_user' post.author.username %}">{{ post.author.username }}</a> 님이 {{ post.created_at|naturaltime }}에 작성함
-            </p>
-        </div>
-    {% endfor %}
-    <br>
-    <div class="pagination">
-    <span class="step-links">
-        
+{% for post in posts %}
+    <h2><a href='{{ post.get_absolute_url }}'>{{ post.title }}</a></h2>
+    {{ post.modify_date|date:"N d, Y" }}
+    <p>{{ post.description }}</p>
+{% endfor %}
+
+<br/>
+
+<div>
+    <span>
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">Previous Page</a>
+            <a href="?page={{ page_obj.previous_page_number }}">PreviousPage</a>
         {% endif %}
 
-        <span class="current">
-            총 {{ page_obj.paginator.num_pages }}페이지 중 {{ page_obj.number }}페이지. 
-        </span>
+        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Next Page</a>
+            <a href="?page={{ page_obj.next_page_number }}">NextPage</a>
         {% endif %}
     </span>
-    </div>
 
+</div>
+
+</div>
 {% endblock %}

@@ -1,82 +1,54 @@
-{% load staticfiles %}
-<html>
+<!DOCTYPE html>
+<html lang="ko">
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock %}</title>
-    <script src="https://cdn.jsdelivr.net/jquery/3.1.0/jquery.min.js"></script>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
-    <link rel="icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
-    <link rel="stylesheet" href="{% static 'css/other.css' %}">
-    <script src="{% static 'scripts/home.js' %}"></script>
+<title>{% block title %}Django Web Programming{% endblock %}</title>
+
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "css/base.css" %}{% endblock %}" />
+<link rel="stylesheet" type="text/css" href="{% block extrastyle %}{% endblock %}" />
+
 </head>
+
 <body>
-<nav class="navbar navbar-fixed-top navbar-inverse">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Leopold</a>
-        </div>
-        <div id="navbar" class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                {% if request.path == '/post/' %}
-                    <li class="active"><a href="{% url 'blog:index' %}">Post List</a></li>
-                {% else %}
-                    <li><a href="{% url 'blog:index' %}">Post List</a></li>
-                {% endif %}
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'common:view_user' user.username %}">{{ user.username }} 님</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                <li><a href="{% url 'blog:new_post' %}">Write Post</a></li>
-                {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'common:create' %}">Create Account</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-</nav>
-<div class="container">
-    {% if messages %}
-    {% for message in messages %}
-    <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
-    {% endfor %}
-    {% endif %}
-    <div class="row row-offcanvas row-offcanvas-right">
-        <div class="col-xs-12 col-sm-9">
-            {% block content %}
-            {% endblock %}
-        </div><!--/.col-xs-12.col-sm-9-->
-        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar" onsubmit="return yeah();">
-            <b>Search using Tag</b>
-            <form>
-                <input type="text" class="form-control search-with-tag" placeholder="Search">
-            </form>
-            <br>
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3>Made in Django</h3>
-                    <p>
-                        Bootstrap is GOD!
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-    <hr>
-    <footer>&copy; Copyright 2016, Leop0ld</footer>
+
+<div id="header">
+    <h2 class="maintitle">Easy&amp;Fast Django Web Programming</h2>
+    <h4 class="welcome">Welcome, <a href="#">Leop0ld</a> /
+                <a href="#">Change Password</a> /
+                <a href="#">Logout</a>
+    </h4>
 </div>
+
+<div id="menu">
+    <li><a href="{% url 'home' %}">Home</a></li>
+    <li><a href="{% url 'bookmark:index' %}">Bookmark</a></li>
+    <li><a href="{% url 'blog:index' %}">Blog</a></li>
+    <li><a href="#">Photo</a></li>
+
+    <li><a href="#">Add&bigtriangledown;</a>
+        <ul>
+            <li><a href="#">Bookmark</a></li>
+            <li><a href="#">Blog</a></li>
+	    <li><a href="#">Photo</a></li>
+        </ul>
+    </li>
+    <li><a href="#">Change&bigtriangledown;</a>
+        <ul>
+            <li><a href="#">Bookmark</a></li>
+            <li><a href="#">Blog</a></li>
+	    <li><a href="#">Photo</a></li>
+        </ul>
+    </li>
+
+    <li><a href="{% url 'blog:post_archive' %}">Archive</a></li>
+    <li><a href="#">Search</a></li>
+    <li><a href="{% url 'admin:index' %}">Admin</a></li>
+</div>
+
+{% block content %}{% endblock %}
+
+{% block footer %}{% endblock %}
+
 </body>
 </html>
