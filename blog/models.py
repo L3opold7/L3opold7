@@ -3,6 +3,7 @@ from django.db import models
 from imagekit.models import ImageSpecField
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
+from tagging.fields import TagField
 
 
 class Post(models.Model):
@@ -10,7 +11,7 @@ class Post(models.Model):
     title = models.CharField(max_length=30)
     content = models.CharField(max_length=300)
     vote = models.IntegerField(default=0)
-    tag = models.CharField(max_length=20)
+    tag = TagField()
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
@@ -33,9 +34,3 @@ class Photo(models.Model):
                                      processors=[ResizeToFill(100, 100)],
                                      format='JPEG',
                                      options={'qulity': 60})
-
-
-class Comment(models.Model):
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    content = models.CharField(max_length=200)

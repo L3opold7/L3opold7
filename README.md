@@ -3,17 +3,18 @@
 AWS S3 Setting 완료
 
 Thumbnail + Image 업로드 
-> use django-imagekit)
+> use django-imagekit
 
 Login + Register
-> use AbstractUser
+> use LoginView, CreateView
 
 Post
 > Model 직접 구현
 
-## 실행 환경
+## AWS 실행 환경
 
 Ubuntu 14.04 LTS
+
 Python 3.4.3
 
 virtualenv + virtualenvwrapper 사용
@@ -25,7 +26,7 @@ Nginx+uWSGI 사용해서 배포중
 
 ## 툴
 
-Pycharm Comunity version 2016.02 버전 사용
+Pycharm Professional version 2016.02 버전 사용
 
 
 ## 실행 방법

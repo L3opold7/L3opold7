@@ -17,6 +17,7 @@ INSTALLED_APPS = (
     'imagekit',
     'pipeline',
     'storages',
+    'tagging.apps.TaggingConfig',
 )
 
 # Database
