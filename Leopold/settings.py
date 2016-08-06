@@ -19,6 +19,7 @@ INSTALLED_APPS = (
     'bookmark.apps.BookmarkConfig',
     'disqus',
     'django.contrib.sites',
+    'photo.apps.PhotoConfig',
 )
 
 # Database

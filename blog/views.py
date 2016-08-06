@@ -5,7 +5,7 @@ from django.views.generic.dates import ArchiveIndexView, YearArchiveView, MonthA
 from django.views.generic.dates import DayArchiveView, TodayArchiveView
 from tagging.views import TaggedObjectList
 
-from blog.forms import PhotoForm, PostSearchForm
+from blog.forms import PostSearchForm
 from blog.models import Post
 
 
@@ -70,8 +70,3 @@ class SearchFormView(FormView):
         context['object_list'] = post_list
 
         return render(self.request, self.template_name, context)
-
-
-class UploadView(FormView):
-    form_class = PhotoForm
-    template_name = 'blog/upload.html'
