@@ -15,9 +15,24 @@ Including another URLconf
     3. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
 from django.conf.urls import url
-from bookmark.views import BookmarkLV, BookmarkDV
+from bookmark.views import *
 
 urlpatterns = [
+    # Index
     url(r'^$', BookmarkLV.as_view(), name='index'),
+
+    # Add
+    url(r'^add/$', BookmarkCreateView.as_view(), name='add'),
+
+    # Change
+    url(r'^change/$', BookmarkChangeView.as_view(), name='change'),
+
+    # Update
+    url(r'^(?P<pk>\d+)/update/$', BookmarkUpdateView.as_view(), name='update'),
+
+    # Delete
+    url(r'^(?P<pk>\d+)/delete/$', BookmarkDeleteView.as_view(), name='delete'),
+
+    # Detail
     url(r'^(?P<pk>\d+)/$', BookmarkDV.as_view(), name='detail'),
 ]

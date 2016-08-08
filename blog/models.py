@@ -1,13 +1,16 @@
 from __future__ import unicode_literals
 
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.text import slugify
 from tagging.fields import TagField
 
 
 @python_2_unicode_compatible
 class Post(models.Model):
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     title = models.CharField('TITLE', max_length=50)
     slug = models.SlugField('SLUG', unique=True, allow_unicode=True, help_text='one word for title alias.')
     description = models.CharField('DESCRIPTION', max_length=100, blank=True, help_text='simple description text.')
@@ -33,3 +36,8 @@ class Post(models.Model):
 
     def get_next_post(self):
         return self.get_next_by_modify_date()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.slug = slugify(self.title, allow_unicode=True)
+        super(Post, self).save(*args, **kwargs)
