@@ -22,10 +22,19 @@ from django.conf import settings
 from Leopold.views import HomeView
 
 urlpatterns = [
+    # Admin 페이지
     url(r'^admin/', include(admin.site.urls)),
 
+    # index 페이지
     url(r'^$', HomeView.as_view(), name='home'),
+
+    # bookmark 앱
     url(r'^bookmark/', include('bookmark.urls', namespace='bookmark')),
+
+    # blog 앱
     url(r'^blog/', include('blog.urls', namespace='blog')),
+
+    # photo 앱
     url(r'^photo/', include('photo.urls', namespace='photo')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
