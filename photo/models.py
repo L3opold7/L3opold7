@@ -1,10 +1,9 @@
 from __future__ import unicode_literals
-
-from django.db import models
-from django.urls import reverse
 from django.utils.encoding import python_2_unicode_compatible
 
-from blog.models import Post
+from django.db import models
+from django.core.urlresolvers import reverse
+
 from photo.fields import ThumbnailImageField
 
 
@@ -17,7 +16,7 @@ class Album(models.Model):
         ordering = ['name']
 
     def __str__(self):
-        return self.title
+        return self.name
 
     def get_absolute_url(self):
         return reverse('photo:album_detail', args=(self.id, ))
