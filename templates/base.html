@@ -2,22 +2,31 @@
 <html lang="ko">
 
 <head>
-<title>{% block title %}Django Web Programming{% endblock %}</title>
+    <title>{% block title %}Leop0ld's Blog{% endblock %}</title>
 
-{% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "css/base.css" %}{% endblock %}" />
-<link rel="stylesheet" type="text/css" href="{% block extrastyle %}{% endblock %}" />
+    {% load staticfiles %}
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha256-cCueBR6CsyA4/9szpPfrX3s49M9vUU5BgtiJj06wt/s=" crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "css/base.css" %}{% endblock %}" />
+    <link rel="stylesheet" type="text/css" href="{% block extrastyle %}{% endblock %}" />
 
 </head>
 
 <body>
 
 <div id="header">
-    <h2 class="maintitle"><small>made by</small> Leop0ld</h2>
+    <h2 class="maintitle"></h2>
     {% if user.is_active %}
         <h4 class="welcome">Welcome, <strong>{% firstof user.get_short_name user.get_username %}</strong> /
-                    <a href="{% url 'password_change' %}">Change Password</a> /
-                    <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'password_change' %}">Change Password</a> /
+            <a href="{% url 'logout' %}">Logout</a>
         </h4>
     {% else %}
         <h4 class="welcome">Welcome, Anonymous /
@@ -26,37 +35,31 @@
         </h4>
     {% endif %}
 </div>
-
-<div id="menu">
-    <li><a href="{% url 'home' %}">Home</a></li>
-    <li><a href="{% url 'bookmark:index' %}">Bookmark</a></li>
-    <li><a href="{% url 'blog:index' %}">Blog</a></li>
-    <li><a href="{% url 'photo:index' %}">Photo</a></li>
-
-    <li><a href="#">Add&bigtriangledown;</a>
-        <ul>
-            <li><a href="{% url 'bookmark:add' %}">Bookmark</a></li>
-            <li><a href="{% url 'blog:add' %}">Blog</a></li>
-	        <li><a href="{% url 'photo:album_add' %}">Album</a></li>
-            <li><a href="{% url 'photo:photo_add' %}">Photo</a></li>
-        </ul>
-    </li>
-    <li><a href="#">Change&bigtriangledown;</a>
-        <ul>
-            <li><a href="{% url 'bookmark:change' %}">Bookmark</a></li>
-            <li><a href="{% url 'blog:change' %}">Blog</a></li>
-	        <li><a href="{% url 'photo:album_change' %}">Album</a></li>
-	        <li><a href="{% url 'photo:photo_change' %}">Photo</a></li>
-        </ul>
-    </li>
-
-    <li><a href="{% url 'blog:post_archive' %}">Archive</a></li>
-    <li><a href="{% url 'blog:search' %}">Search</a></li>
-    <li><a href="{% url 'admin:index' %}">Admin</a></li>
-</div>
-
+<!-- Navigation -->
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <a class="navbar-brand" href="https://leop0ld.github.io/"><small>made by</small> Leop0ld</a>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'bookmark:index' %}">Bookmark</a></li>
+                <li><a href="{% url 'blog:index' %}">Blog</a></li>
+                <li><a href="{% url 'photo:index' %}">Photo</a></li>
+                <li><a href="{% url 'blog:post_archive' %}">Archive</a></li>
+                <li><a href="{% url 'blog:search' %}">Search</a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<div class="container">
 {% block content %}{% endblock %}
-
+</div>
 {% block footer %}{% endblock %}
 
 </body>

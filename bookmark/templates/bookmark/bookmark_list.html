@@ -3,13 +3,15 @@
 {% block title %}Django Bookmark List{% endblock %}
 
 {% block content %}
-<div id="content">
-    <h1>Bookmark List</h1>
+    <div id="content">
+        <div class="container">
+            <h1>Bookmark List</h1>
 
-    <ul>
-        {% for bookmark in object_list %}
-            <li><a href="{% url 'bookmark:detail' bookmark.id %}">{{ bookmark }}</a></li>
-        {% endfor %}
-    </ul>
-</div>
+            <ul>
+                {% for bookmark in object_list %}
+                    <li><a href="{% url 'bookmark:detail' bookmark.id %}">{{ bookmark }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}
