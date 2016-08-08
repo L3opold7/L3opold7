@@ -1,14 +1,16 @@
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
 
-from django.db import models
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 
 from photo.fields import ThumbnailImageField
 
 
 @python_2_unicode_compatible
 class Album(models.Model):
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     description = models.CharField('One Line Description.', max_length=100, blank=True)
 
@@ -24,6 +26,7 @@ class Album(models.Model):
 
 @python_2_unicode_compatible
 class Photo(models.Model):
+    owner = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     album = models.ForeignKey(Album, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     image = ThumbnailImageField(upload_to='photo/%Y/%m')
