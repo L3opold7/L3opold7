@@ -20,10 +20,16 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 from Leopold.views import HomeView
+from Leopold.views import UserCreateView, UserCreateDoneTV
 
 urlpatterns = [
     # Admin 페이지
     url(r'^admin/', include(admin.site.urls)),
+
+    # User Authentication
+    url(r'^accounts/', include('django.contrib.auth.urls')),
+    url(r'^accounts/register/$', UserCreateView.as_view(), name='register'),
+    url(r'^accounts/register/done/$', UserCreateDoneTV.as_view(), name='register_done'),
 
     # index 페이지
     url(r'^$', HomeView.as_view(), name='home'),

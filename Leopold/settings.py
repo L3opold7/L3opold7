@@ -13,7 +13,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'blog.apps.BlogConfig',
-    'imagekit',
     'storages',
     'tagging.apps.TaggingConfig',
     'bookmark.apps.BookmarkConfig',
@@ -89,10 +88,14 @@ USE_TZ = True
 
 ALLOWED_HOSTS = ['*']
 
-DEBUG = True
-
 DISQUS_WEBSITE_SHORTNAME = 'leop0ld7'
 SITE_ID = 1
+
+# LOGIN_URL = '/accounts/login/'
+# LOGOUT_URL = '/accounts/logout/'
+LOGIN_REDIRECT_URL = '/'
+
+DEBUG = True
 
 if DEBUG:
     STATIC_URL = '/static/'
