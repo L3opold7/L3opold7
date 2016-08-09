@@ -19,7 +19,7 @@ class PostLV(ListView):
     model = Post
     template_name = 'blog/post_all.html'
     context_object_name = 'posts'
-    paginate_by = 2
+    paginate_by = 5
 
     def get_context_data(self, **kwargs):
         context = super(PostLV, self).get_context_data()

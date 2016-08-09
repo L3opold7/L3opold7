@@ -1,3 +1,4 @@
+from django.template.defaultfilters import register
 from django.views.generic.edit import UpdateView, CreateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from Leopold.views import LoginRequiredMixin
@@ -44,3 +45,4 @@ class BookmarkUpdateView(LoginRequiredMixin, UpdateView):
 class BookmarkDeleteView(LoginRequiredMixin, DeleteView):
     model = Bookmark
     success_url = reverse_lazy('bookmark:index')
+

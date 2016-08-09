@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.core.urlresolvers import reverse_lazy
+from django.template.defaultfilters import register
 from django.views.generic.base import TemplateView
 from django.views.generic.edit import CreateView
 
