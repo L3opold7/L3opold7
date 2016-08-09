@@ -6,8 +6,14 @@ from django.core.urlresolvers import reverse_lazy
 from photo.forms import PhotoInlineFormSet
 from django.shortcuts import redirect
 
+
 class AlbumLV(ListView):
     model = Album
+
+    def get_context_data(self, **kwargs):
+        context = super(AlbumLV, self).get_context_data()
+        context['nav'] = 'photo'
+        return context
 
 
 class AlbumDV(DetailView):

@@ -8,6 +8,11 @@ from bookmark.models import Bookmark
 class BookmarkLV(ListView):
     model = Bookmark
 
+    def get_context_data(self, **kwargs):
+        context = super(BookmarkLV, self).get_context_data()
+        context['nav'] = 'bookmark'
+        return context
+
 
 class BookmarkDV(DetailView):
     model = Bookmark

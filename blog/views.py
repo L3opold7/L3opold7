@@ -21,6 +21,11 @@ class PostLV(ListView):
     context_object_name = 'posts'
     paginate_by = 2
 
+    def get_context_data(self, **kwargs):
+        context = super(PostLV, self).get_context_data()
+        context['nav'] = 'blog'
+        return context
+
 
 class PostTOL(TaggedObjectList):
     model = Post
