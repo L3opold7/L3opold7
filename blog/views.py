@@ -101,3 +101,22 @@ class PostUpdateView(LoginRequiredMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('blog:index')
+
+
+class BstrapSearchLV(ListView):
+    template_name = 'blog/post_bstrap_search.html'
+
+    def get_queryset(self):
+        sch_word = '%s' % self.request.GET['search']
+        post_list = Post.objects.filter(Q(title__icontains=sch_word) |
+                                        Q(description__icontains=sch_word) |
+                                        Q(content__icontains=sch_word))
+        self.search_term = sch_word
+        self.count = post_list.count()
+        return post_list
+
+    def get_context_data(self, **kwargs):
+        context = super(BstrapSearchLV, self).get_context_data(**kwargs)
+        context['search_term'] = self.search_term
+        context['search_count'] = self.count
+        return context

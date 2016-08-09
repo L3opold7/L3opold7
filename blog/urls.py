@@ -63,4 +63,7 @@ urlpatterns = [
 
     # Example: /1/delete
     url(r'^(?P<pk>\d+)/delete/$', PostDeleteView.as_view(), name='delete'),
+
+    # Example: /bssearch/ (Bootstrap Search)
+    url(r'^bssearch/$', BstrapSearchLV.as_view(), name='bssearch'),
 ]
