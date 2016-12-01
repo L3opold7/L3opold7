@@ -44,14 +44,6 @@ INSTALLED_APPS = (
     'photo.apps.PhotoConfig',
 )
 
-# Database
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
-    }
-}
-
 MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -128,6 +120,14 @@ if DEBUG:
     MEDIA_URL = '/media/'
     MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+    # Database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+        }
+    }
+
 else:
 
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
@@ -150,3 +150,14 @@ else:
 
     # Media Setting
     MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'leop0ld',
+            'USER': 'leop0ld',
+            'PASSWORD': get_secret('AWS_RDS_PASSWORD'),
+            'HOST': 'leop0ld.ap-northeast-2.rds.amazonaws.com',
+            'PORT': '5432',
+        }
+    }
