@@ -1,8 +1,31 @@
 import os
+import json
+
+from django.core.exceptions import ImproperlyConfigured
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = '0i9ew9l2n0bh%ks2y&_pa_u=*h&2v%m@ex3pxv)+jd-iud2&18'
+# SECURITY WARNING: keep the secret key used in production secret!
+secret_file = os.path.join(BASE_DIR, 'secret.json')
+
+with open(secret_file, 'r') as f:
+    secret = json.loads(f.read())
+
+
+def get_secret(setting, secret=secret):
+    """
+    :param setting: secret Dict 의 원하는 value 값을 가져올 수 있게하는 key 값
+    :param secret: 비밀 변수들의 실제 값을 담은 json 파일을 Dict화 한 변수
+    :return secret[setting]: secret.json 에서 가져온 Dict 의 setting 키를 가진 값을 리턴해줍니다.
+    """
+    try:
+        return secret[setting]
+    except KeyError:
+        error_msg = "Set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_secret('SECRET_KEY')
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -110,11 +133,11 @@ else:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
     # AWS Setting
-    AWS_ACCESS_KEY_ID = 'AKIAJA7YZMQQ5GG7LTPQ'
-    AWS_SECRET_ACCESS_KEY = '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'
+    AWS_ACCESS_KEY_ID = get_secret('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = get_secret('AWS_SECRET_ACCESS_KEY')
 
     AWS_REGION = 'ap-northeast-2'
-    AWS_STORAGE_BUCKET_NAME = 'l3opold7'
+    AWS_STORAGE_BUCKET_NAME = 'leop0ld'
     AWS_QUERYSTRING_AUTH = False
     AWS_S3_HOST = 's3.%s.amazonaws.com' % AWS_REGION
 
